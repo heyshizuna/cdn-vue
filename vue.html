@@ -26,7 +26,9 @@
             margin: 2px;
             border-radius: 3px;
         }
-
+        form{
+           margin: 15px 0;
+        }
         button:active {
             background-color: lightsteelblue;
         }
@@ -50,6 +52,7 @@
             border: 1px solid saddlebrown;
             padding: 10px;
         }
+
     </style>
 </head>
 
@@ -97,16 +100,26 @@
         <hr>
         <div class="for">
             <h3 :class="'blue'">v-for</h3>
+            <!-- 原生做法：使用 preventDefault()擋下送出 -->
+            <form @submit.prevent="submitData()">
+                Name：<input type="text" v-model="name">
+                Power：<input type="number" v-model="playPower">
+                <button type="submit">新增資料</button>
+            </form>
             <div class="container">
                 <!-- v-for="(單筆資料,其索引值) in array(整筆資料)" -->
                 <!-- key="" 需為獨一無二的值，若無就選索引值 -->
                 <div v-for="player in user" :key="player.id" class="card">
                     <div class="card-img">
-                        <img :src="player.path" alt="player.name">
+                        <img :src="playerImg(player.power)" alt="player.name">
                     </div>
                     <div class="card-content">
                         <p class="name">Name:{{ player.name }}</p>
                         <div class="power">Power:{{ player.power }}</div>
+                        <div class="btns">
+                            <button type="button" @click="addPlayerPower(player)" v-if="player.power<=1200">增加戰力</button>
+                            <button type="button"@click="player.power-=100" v-if="player.power>=0">減少戰力</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,23 +156,21 @@
                         id:1,
                         name:'person1',
                         power:587,
-                        path:'./image/01.jpg',
                     },{
                         id:2,
                         name:'person2',
                         power:878,
-                        path:'./image/02.jpg',
                     },{
                         id:3,
                         name:'person3',
                         power:787,
-                        path:'./image/03.jpg',
                     },{
                         id:4,
                         name:'person4',
                         power:999,
-                        path:'./image/04.jpg',
-                    }]
+                    }],
+                    name:'',
+                    playPower:'',
                 }
             },
             //函式區塊
@@ -192,7 +203,28 @@
                     }else{
                         return '';
                     }
-                }
+                },
+                playerImg(power){
+                    if(power<=600){
+                        return './image/01.jpg';
+                    }else if(power<=800){
+                        return './image/02.jpg';
+                    }else if(power<=900){
+                        return './image/03.jpg';
+                    }else{
+                        return './image/04.jpg';
+                    }
+                },
+                submitData(){
+                    this.user.push({
+                        id:this.user.length,
+                        name:this.name,
+                        power:this.playPower,
+                    })
+                },
+                addPlayerPower(powerData){
+                    powerData.power+=100;
+                },
             },
 
 
