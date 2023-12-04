@@ -6,45 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue-cdn</title>
     <style>
-        .img img{
-            width: 120px;
-            height: 90px;
+        img {
+            width: 240px;
+            height: 180px;
+        }
+
+        button {
+            border: 1px dotted lightskyblue;
+            background-color: lightgoldenrodyellow;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 3px;
+        }
+
+        button:active {
+            background-color: lightsteelblue;
+        }
+        .blue{
+            color: steelblue;
+            font-size: 20px;
+        }
+        .red{
+            color: red;
+        }
+        .fw{
+            font-weight: 300;
+            font-size: 24px;
         }
     </style>
 </head>
 
 <body>
     <div id="app">
+        <h3 class="blue">v-on</h3>
         {{arr[2]}}
         <div>數字：{{ count+100 }}</div>
         <button type="button" v-on:click="count++">增加(完整寫法)</button> <!--＠click = v-on:click -->
-        <button type="button" @click="count++">增加(簡寫)</button>
+        <button type="button" @click="count--">減少(簡寫)</button>
         <button type="button" @click="addCount()">增加(函式)</button>
         <hr>
-        <!-- v model (通常寫在input) -->
+        <!-- v-model (通常寫在input) -->
         <!-- input值為多少 資料也會跟著變動 （雙向綁定） -->
+        <h3 class="blue">v-model</h3>
         <input type="text" v-model="inputText"> <br>
         {{ inputText }}
         <hr>
-        <!-- v-if (判斷式) => true：該元素會出現在文件內 false：不會出現 -->
+        <!-- v-if (判斷式) => 中間不能參雜其他元素，不符合條件的元素不會出現在文件上-->
+        <!-- v-show(判斷式) => true：該元素會出現在文件內 false：不會出現 display:none -->
+        <h3 class="blue">v-if / v-show</h3>
+        <div>Info:{{ info }}</div>
+        <button type="button" @click="info++">增加</button>
+        <button type="button" @click="info--">減少</button>
         <div class="img">
-            <div>Info:{{ info }}</div>
-            <button type="button" @click="info++">5</button>
-            <button type="button" @click="info--">10</button>
-            <img v-if="info < 5" src="./01.jpg" alt="">
-            <img v-else-if="info < 10" src="./02.jpg" alt="">
-            <img v-else src="./01.jpg" alt="">
+            <img v-if="info < 5" src="./image/01.jpg" alt="">
+            <img v-else-if="info < 10" src="./image/02.jpg" alt="">
+            <img v-else src="./image/03.jpg" alt="">
 
-            <!-- v-show(判斷式) -->
-            <div v-show="power > 5">v-show</div>
+            <div v-show="info > 6">大於6會看到我</div>
         </div>
+        <hr>
+        <div class="changeClass"> 
+            <!-- v-bind（屬性綁定）完整方式 -->
+            <!-- :（屬性綁定）簡易方法 -->
+            <h3 :class="'blue'">v-bind</h3>
+            <img :src="imgPath" alt="" @click="changeImage()"> <br><br>
+            <!-- 加入判斷式 :class="{ 'class名稱': 判斷式 }" -->
+            <h3 :class="{ 'red': power >= 500 }">戰力：{{ power }}</h3>
+            <button type="button" @click="addPower()">增加戰力</button>
+            <!-- 加入判斷式 :class="function" -->
+            <h3 :class="cssStyle()">戰力：{{ power2 }}</h3>
+            <button type="button" @click="addPower2()">增加戰力</button>
+        </div>
+        <hr>
+        <div class="for">
+            <h3 :class="'blue'">v-for</h3>
 
+        </div>
     </div>
 
 
-
-
-    <div class="app2"></div>
 
 
 
@@ -65,6 +105,10 @@
                     count: 0,
                     inputText: '雙向綁定',
                     info: 0,
+                    imgPath: './image/01.jpg',
+                    state: 0,
+                    power:495,
+                    power2:495,
                 }
             },
             //函式區塊
@@ -73,6 +117,31 @@
                     //需要跨區塊取資料
                     this.count++;
                 },
+                addPower() {
+                    this.power++;
+                },
+                addPower2() {
+                    this.power2++;
+                },
+                changeImage() {
+                    if (this.state === 0) {
+                        this.imgPath = './image/02.jpg';
+                        this.state = 1;
+                    } else if (this.state === 1) {
+                        this.imgPath = './image/03.jpg';
+                        this.state = 2;
+                    } else {
+                        this.imgPath = './image/01.jpg';
+                        this.state = 0;
+                    }
+                },
+                cssStyle(){
+                    if(this.power2 >= 500){
+                        return 'red fw';
+                    }else{
+                        return '';
+                    }
+                }
             },
 
 
