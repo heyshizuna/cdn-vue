@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-cdn</title>
+</head>
+
+<body>
+    <div id="app">{{arr[1]}}</div>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue
+        
+        createApp({
+         //資烙層（宣告資料的分區）   
+          data() { 
+            return { //資料區一定要return
+              message: 'Hello Vue!',
+              arr:['Tata','Lulu','Machi'],
+              obj:{age:5,weight:4},
+            }
+          },
+          methods(){
+
+          },
+
+
+        }).mount('#app')
+      </script>
+</body>
+
+</html>
