@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue-cdn</title>
+    <style>
+        .img img{
+            width: 120px;
+            height: 90px;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,11 +20,31 @@
         <button type="button" v-on:click="count++">增加(完整寫法)</button> <!--＠click = v-on:click -->
         <button type="button" @click="count++">增加(簡寫)</button>
         <button type="button" @click="addCount()">增加(函式)</button>
+        <hr>
+        <!-- v model (通常寫在input) -->
+        <!-- input值為多少 資料也會跟著變動 （雙向綁定） -->
+        <input type="text" v-model="inputText"> <br>
+        {{ inputText }}
+        <hr>
+        <!-- v-if (判斷式) => true：該元素會出現在文件內 false：不會出現 -->
+        <div class="img">
+            <div>Info:{{ info }}</div>
+            <button type="button" @click="info++">5</button>
+            <button type="button" @click="info--">10</button>
+            <img v-if="info < 5" src="./01.jpg" alt="">
+            <img v-else-if="info < 10" src="./02.jpg" alt="">
+            <img v-else src="./01.jpg" alt="">
+
+            <!-- v-show(判斷式) -->
+            <div v-show="power > 5">v-show</div>
+        </div>
+
     </div>
 
-    <div class="app2">
 
-    </div>
+
+
+    <div class="app2"></div>
 
 
 
@@ -37,6 +63,8 @@
                         weight: 4
                     },
                     count: 0,
+                    inputText: '雙向綁定',
+                    info: 0,
                 }
             },
             //函式區塊
